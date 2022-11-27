@@ -26,21 +26,21 @@ def check_draw():
 
 
 def check_win():
-    if field[1] == field[2] == field[3] and field[1] == field[3] and not is_free(1):
+    if field[1] == field[2] == field[3] and not is_free(1):
         return True
-    elif field[4] == field[5] and field[4] == field[6] and not is_free(4):
+    elif field[4] == field[5] == field[6] and not is_free(4):
         return True
-    elif field[7] == field[8] and field[7] == field[9] and not is_free(7):
+    elif field[7] == field[8] == field[9] and not is_free(7):
         return True
-    elif field[1] == field[4] and field[1] == field[7] and not is_free(1):
+    elif field[1] == field[4] == field[7] and not is_free(1):
         return True
-    elif field[2] == field[5] and field[2] == field[8] and not is_free(2):
+    elif field[2] == field[5] == field[8] and not is_free(2):
         return True
-    elif field[3] == field[6] and field[3] == field[9] and not is_free(3):
+    elif field[3] == field[6] == field[9] and not is_free(3):
         return True
-    elif field[1] == field[5] and field[1] == field[9] and not is_free(1):
+    elif field[1] == field[5] == field[9] and not is_free(1):
         return True
-    elif field[7] == field[5] and field[7] == field[3] and not is_free(7):
+    elif field[7] == field[5] == field[3] and not is_free(7):
         return True
     else:
         return False
