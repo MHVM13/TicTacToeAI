@@ -46,7 +46,7 @@ def check_win():
         return False
 
 
-def insertValue(pos, value):
+def insert_value(pos, value):
     if is_free(pos):
         field[pos] = value
         print_field()
@@ -64,6 +64,5 @@ def insertValue(pos, value):
                 exit()
     else:
         print('Enter another position')
-        insertValue(int(input('New position: ')))
+        insert_value(int(input('New position: ')), value)
         return
-
