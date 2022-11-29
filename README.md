@@ -1,3 +1,2 @@
-# TicTacToeAI
+# TicTacToeAI using Minimax algorithm
 
-This game is using MiniMax algorithm
