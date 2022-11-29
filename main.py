@@ -148,12 +148,12 @@ def player_turn():
 # Основная функция для запуска игры
 first_turn = int(input('Enter who turns the first (1 - player, 2 - bot): '))
 if first_turn == 1:
-    print("Player turns first!")
+    print("Player turns the first!")
     while not check_win():
         player_turn()
         bot_turn()
 else:
-    print("Bot turns first!")
+    print("Bot turns the first!")
     while not check_win():
         bot_turn()
         player_turn()
