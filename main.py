@@ -9,10 +9,10 @@ field = {
 
 
 def print_field():
-    print(f"|{field[1]}|{field[2]}|{field[3]}|")
-    print(f"|{field[4]}|{field[5]}|{field[6]}|")
-    print(f"|{field[7]}|{field[8]}|{field[9]}|")
-    print()
+    print(f"{field[1]} {field[2]} {field[3]}")
+    print(f"{field[4]} {field[5]} {field[6]}")
+    print(f"{field[7]} {field[8]} {field[9]}")
+    print('-------')
 
 
 def is_free(pos):
@@ -23,6 +23,7 @@ def check_draw():
     for key in field.keys():
         if field[key] == ' ':  # Если есть еще свободные клетки
             return False
+
     return True
 
 
@@ -48,22 +49,22 @@ def check_win():
         return False
 
 
-def check_which_value_won(value):
-    if field[1] == field[2] == field[3] and field[1] == value:
+def check_winner(value):
+    if field[1] == field[2] == field[3] == value:
         return True
-    elif field[4] == field[5] == field[6] and field[4] == value:
+    elif field[4] == field[5] == field[6] == value:
         return True
-    elif field[7] == field[8] == field[9] and field[7] == value:
+    elif field[7] == field[8] == field[9] == value:
         return True
-    elif field[1] == field[4] == field[7] and field[1] == value:
+    elif field[1] == field[4] == field[7] == value:
         return True
-    elif field[2] == field[5] == field[8] and field[2] == value:
+    elif field[2] == field[5] == field[8] == value:
         return True
-    elif field[3] == field[6] == field[9] and field[3] == value:
+    elif field[3] == field[6] == field[9] == value:
         return True
-    elif field[1] == field[5] == field[9] and field[1] == value:
+    elif field[1] == field[5] == field[9] == value:
         return True
-    elif field[7] == field[5] == field[3] and not field[7] == value:
+    elif field[7] == field[5] == field[3] == value:
         return True
     else:
         return False
@@ -90,28 +91,26 @@ def insert_value(pos, value):
         insert_value(int(input('New position: ')), value)
 
 
-def minimax(cur_field, depth, is_maximizing):
-    if check_which_value_won(BOT_VALUE):
+def minimax(field, depth, is_maximizing):
+    if check_winner(BOT_VALUE):
         return 1
-    elif check_which_value_won(PLAYER_VALUE):
+    elif check_winner(PLAYER_VALUE):
         return -1
     elif check_draw():
         return 0
 
-    # Для бота (он максимизировать свой счет)
+    # Для бота
     if is_maximizing:
         best_score = -100
 
         for key in field.keys():
             if field[key] == ' ':
                 field[key] = BOT_VALUE
-                score = minimax(field, 0, False)
+                score = minimax(field, depth + 1, False)
                 field[key] = ' '
-                if score > best_score:
-                    best_score = score
+                best_score = max(score, best_score)
 
         return best_score
-
     # Для игрока
     else:
         best_score = 100
@@ -119,10 +118,9 @@ def minimax(cur_field, depth, is_maximizing):
         for key in field.keys():
             if field[key] == ' ':
                 field[key] = PLAYER_VALUE
-                score = minimax(field, depth + 3, True)
+                score = minimax(field, depth + 1, True)
                 field[key] = ' '
-                if score < best_score:
-                    best_score = score
+                best_score = min(score, best_score)
 
         return best_score
 
@@ -148,8 +146,14 @@ def player_turn():
 
 
 # Основная функция для запуска игры
-#print("Player turns first!")
-while not check_win():
-    bot_turn()
-    player_turn()
-
+first_turn = int(input('Enter who turns the first (1 - player, 2 - bot): '))
+if first_turn == 1:
+    print("Player turns the first!")
+    while not check_win():
+        player_turn()
+        bot_turn()
+else:
+    print("Bot turns the first!")
+    while not check_win():
+        bot_turn()
+        player_turn()
