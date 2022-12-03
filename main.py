@@ -1,5 +1,3 @@
-# If we try 4,3,7,8 positions ...the cods shows it as draw. But actually the bot wins there. SECOND VID
-
 PLAYER_VALUE = 'x'
 BOT_VALUE = 'o'
 
@@ -11,10 +9,10 @@ field = {
 
 
 def print_field():
-    print(f"{field[1]} {field[2]} {field[3]}")
-    print(f"{field[4]} {field[5]} {field[6]}")
-    print(f"{field[7]} {field[8]} {field[9]}")
-    print('-------')
+    print(f"|{field[1]}|{field[2]}|{field[3]}|")
+    print(f"|{field[4]}|{field[5]}|{field[6]}|")
+    print(f"|{field[7]}|{field[8]}|{field[9]}|")
+    print()
 
 
 def is_free(pos):
@@ -25,7 +23,6 @@ def check_draw():
     for key in field.keys():
         if field[key] == ' ':  # Если есть еще свободные клетки
             return False
-
     return True
 
 
@@ -93,7 +90,7 @@ def insert_value(pos, value):
         insert_value(int(input('New position: ')), value)
 
 
-def minimax(field, depth, is_maximizing):
+def minimax(cur_field, depth, is_maximizing):
     if check_which_value_won(BOT_VALUE):
         return 1
     elif check_which_value_won(PLAYER_VALUE):
@@ -101,19 +98,20 @@ def minimax(field, depth, is_maximizing):
     elif check_draw():
         return 0
 
-    # Для бота
+    # Для бота (он максимизировать свой счет)
     if is_maximizing:
         best_score = -100
 
         for key in field.keys():
             if field[key] == ' ':
                 field[key] = BOT_VALUE
-                score = minimax(field, 0, False)  # TODO delete second and last parameters
+                score = minimax(field, 0, False)
                 field[key] = ' '
                 if score > best_score:
                     best_score = score
 
         return best_score
+
     # Для игрока
     else:
         best_score = 100
@@ -121,7 +119,7 @@ def minimax(field, depth, is_maximizing):
         for key in field.keys():
             if field[key] == ' ':
                 field[key] = PLAYER_VALUE
-                score = minimax(field, depth + 1, True)  # TODO delete second and last parameters
+                score = minimax(field, depth + 3, True)
                 field[key] = ' '
                 if score < best_score:
                     best_score = score
@@ -136,7 +134,7 @@ def bot_turn():
     for key in field.keys():
         if field[key] == ' ':
             field[key] = BOT_VALUE
-            score = minimax(field, 0, False)  # TODO delete second and last parameters
+            score = minimax(field, 0, False)
             field[key] = ' '
             if score > best_score:
                 best_score = score
@@ -150,7 +148,8 @@ def player_turn():
 
 
 # Основная функция для запуска игры
-print("Player turns first!")
+#print("Player turns first!")
 while not check_win():
-    player_turn()
     bot_turn()
+    player_turn()
+
