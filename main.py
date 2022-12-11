@@ -156,37 +156,37 @@ class Player:
                 self.prices[key] = 0
 
     # Возвращает доступные шаги для игрока в текущем состоянии и их ценности
-    def get_avail_states(self, current_field):
-        avail_states = {}
-        # Пустые клетки
+    def get_available_states(self, current_field):
+        available_states = {}
+        # Получение списка пустые клеток
         empty_cells = Field.get_empty_cells(current_field)
         # Получение списка возможных следующих состояний
         for cell in empty_cells:
             avail_state = replace_char_at_index(current_field, cell, str(self.player_number))
-            avail_states[avail_state] = self.prices[avail_state]
-        return avail_states
+            available_states[avail_state] = self.prices[avail_state]
+        return available_states
 
     # Принятие решения о следующем шаге
     def turn(self, current_state):
-        avail_states = self.get_avail_states(current_state)
+        available_states = self.get_available_states(current_state)
         # Делать ли разведочный шаг True, False
         exploration_move = random.random() <= 0.05
         # Если шаг не разведочный выбираем состояние с наибольшей ценностью
         if not exploration_move:
             # Поиск наивысшей ценности среди возможных шагов
-            max_value = max(avail_states.values())
+            max_value = max(available_states.values())
             # Поиск всех ходов с наивысшей ценой
             max_value_states = {}  # Словарь ходов с наивысшей ценой
             # Заполнить словарь ходов с наивысшей ценой
-            for state in avail_states.keys():
-                if avail_states[state] == max_value:
-                    max_value_states[state] = avail_states[state]
+            for state in available_states.keys():
+                if available_states[state] == max_value:
+                    max_value_states[state] = available_states[state]
             # Вернуть следующее состояние с максимальной ценой (если несколько - выбрать рандомно)
             new_state, max_value = random.choice(list(max_value_states.items()))
             return new_state
         # Если шаг разведочный то выбираем случайно
         else:
-            new_state, random_value = random.choice(list(avail_states.items()))
+            new_state, random_value = random.choice(list(available_states.items()))
             self.steps.append(new_state)
             return new_state
 
